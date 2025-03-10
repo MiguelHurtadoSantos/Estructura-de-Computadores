@@ -12,10 +12,10 @@ int main () {
 			pot = pot * base;
 			exponente = exponente - 1;
 		}
-		printf("La potencia es: %d", pot);
+		printf("La potencia es: %d\n", pot);
 	}
 	else{
-		printf("Error, la base y el exponente han de ser mayores o iguales a 1");
+		printf("Error, la base y el exponente han de ser mayores o iguales a 1\n");
 	}
 	return 0;
 }
