@@ -1,0 +1,96 @@
+_____________________________
+
+  ·data
+#segmento de datos (memoria)
+_____________________________
+
+  ·text
+  ·global main
+main:
+  #segmento de texto (Instrucciones)
+  .
+  .
+  .
+  li a7, 10 \ # Fin del
+  ecall     /   Programa
+
+_____________________________
+
+
+Registros:
+   zero -> 0
+ * t0-t6 -> temporales
+   a0-a7 -> Argumentos
+
+Segmentos de Datos:
+      espacio - lectura - escritura
+byte:  1 byte -   lb    -    sb
+half: 2 bytes -   lh    -    sh
+worf: 4 bytes -   lw    -    sw
+
+zero n -> reserva n bytes
+string "Cadena"
+align n -> busca la siguiente posición multiplo de 2n
+
+Instrucc. Lectura: lx t0, 5(t1) 
+   # lx: lectura de x tipo de datos
+   # t0: donde guarda el valor leído
+   # 5(t1): (Int + Dirección de memoria base) Dirección de memoria donde leer
+   
+Instrucc. Escritura: sx t0, 5(t1)
+   # lx: escritura de x tipo de datos
+   # t0: el registro que quiere escribir
+   # 5(t1): (Int + Dirección de memoria base) Dirección de memoria donde escribir
+   
+Ejemplo:
+   
+_____________________________
+
+   ·data
+a: ·word 5
+b: ·half 7, -5
+c: ·byte 1, 3, 'a'
+d: ·zero 4
+   ·text
+   ·global main
+ main:
+   la t0, b #t0 = 0x1000.04
+   lh t1, 0(t0) #t1 = 7
+   lb t2, 5(t0) #t2 = 3
+   lw t3, -4(t0) #t3 = 5
+   add t4, t1, t2 #t4 = t1 + t2
+   sh t4, 8(t0)
+
+   li a7, 10 \ Llamada 
+   ecall     / al sistema
+_____________________________
+
+Tabla Ejemplo:
+                _______________
+ 0x10...00 ->  |_______5_______|
+ 0x10...04 ->  |___7___|__-5___|
+ 0x10...08 ->  |_1_|_3_|'a'|___|
+ 0x10...0C ->  |__10___|___|___|
+ 0x10...10 ->  |___|___|___|___|
+ 0x10...14 ->  |___|___|___|___|
+
+
+
+_____________________________
+
+  ·data
+#segmento de datos (memoria)
+_____________________________
+
+  ·text
+  ·global main
+main:
+  li a7, 1 #a7 código 1 \ Print
+  li a0, 5 #a0 = 5      |  Int
+  ecall                 /
+  li a7, 5                       \ Read
+  ecall                          | Int
+  mv t0, a0 #t0 = copia valor a0 /
+_____________________________
+
+
