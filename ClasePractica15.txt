@@ -1,0 +1,52 @@
+___________________________________________________
+
+Registros
+___________________________________________________
+
+zero -> 0              (x0)
+t0-t6 -> temporales *
+a0 - a7 -> Argumentos, llamadas al sistema o subconjuntos         (x10-x17)
+ra -> Return Adress         (x1)
+
+___________________________________________________
+
+Saltos
+___________________________________________________
+
+-> Saltos Condicionales: Si se cumple
+   beg(==)/bne(!=)
+
+-> Saltos Incondicionales: Salta siempre
+   j etiqueta (-> JUMP)
+   
+-> Saltos Subrutinas
+   jal ra, subrutina (-> JUMP AND LINK)
+   jalr zero, 0(ra) //ret -> volver a main
+   
+___________________________________________________
+
+Código de Ejemplo
+___________________________________________________
+
+	.data
+	.text
+	.global main
+main:
+	li a0, 5 \ 1º Inicializar
+	li a1, 7 / Argumentos
+	jal ra, suma } 2º Llama subrutinas
+	# Resultados en a0/a1...
+	li a7,1                          \ Primer
+	# En a0 ya está el valor (a0+a1) | Resultado
+	ecall                            /
+	li a7, 10 \ Fin
+	ecall     / Programa
+	
+Suma:
+	mv t0, a0
+	mv t1, a1
+	add t2, t0, t1
+	mv a0, t2 # Copia resultado a a0
+	ret # jalr zero, 0(ra) } Paso volver al main
+	
+
