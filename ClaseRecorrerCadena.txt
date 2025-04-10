@@ -1,0 +1,28 @@
+	.data
+	.zero 100
+	
+	.text
+	.globl main
+	
+main:
+	li a7, 8
+	li a0, origen
+	li a1, 100
+	ecall
+	
+	#En una cadena compuesta cada letra por 1 byte 'H' 'o' 'l' 'a' '\0'.
+	
+	li t0, 0 # Contador
+	la t1, origen # Dirección Origen
+	la t2, destino # Dirección Destino
+bucle:
+	lb t3, 0(t1) # Load byte dirección
+	beq t3, zero, fin
+	addi t1, t1, 1 # Es igual que hacer un incremento (t1++)
+	addi t0, t0, 1
+	sb t3, 0(t2)
+	addi t2, t2, 1
+	bucle
+	
+	li a7, 10
+	ecall
