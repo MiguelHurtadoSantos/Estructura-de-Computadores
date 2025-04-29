@@ -1,0 +1,77 @@
+Pilas en Ensamblador Risc-V
+___________________________
+
+
+APILAR
+(1) addi sp, sp, -1
+    sb ~~~, 0(sp)
+(2) addi sp, sp, -2
+    sh ~~~, 0(sp)
+(3) addi sp, sp, -4
+    sw ~~~, 0(sp)
+
+DESAPILAR
+(1) lb ~~~, 0(sp)
+    addi sp, sp, 1
+(2) lh ~~~, 0(sp)
+    addi sp, sp, 2
+(3) lw ~~~, 0(sp)
+    addi sp, sp, 4
+
+
+3 CASOS DE USO
+______________
+
+
+1) Argumentos / resultados de funciones
+   # Argumentos a0, a1,...
+   APILO ARGS
+   jal ra, funcion
+   # Resultados a0,...
+   DESAPILO RESULTADOS
+   --------
+   funcion: #Argumentos
+   DESAPILO ARGS
+
+   # Resultados a0, a1,...
+   APILO RESUPLTADOS
+   ret
+
+
+2) Invertir
+   .data
+vector: .zero 400
+vectorI: .zero 400
+-------------------
+main:
+   leo 100 enteros
+   bucle
+     Apilo 100 enteros
+   la +0, vectorI
+   bucle
+     Desapilo 100 enteros
+     sw t1, 0(t0)
+     addi t0, t0, 4
+
+
+3) Funciones anidadas
+main: 
+.jal ra, func
+# Fin del main
+func:
+   Apilo ra
+   jal ra, fun2
+   Desapilo ra
+   ret
+fun2:
+   ret
+la t0, vector
+
+llamada al sist
+sw a0, 0(t0)
+addi t0, t0, 4
+---------------
+la t0, vector
+lw t1, 0(t0)
+addi t0, t0, 4
+Apilo t1
