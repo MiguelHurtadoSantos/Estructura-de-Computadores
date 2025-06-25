@@ -3,8 +3,8 @@
 #include <malloc.h>
 #include <time.h>
 
-void inicializamatriz(int **p, int n, int m);
-int calculaminimo(int **p, int n, int m);
+void inicializamatriz(int **matriz, int n, int m);
+int calculaminimo(int **matriz, int n, int m);
 void main() {
 	int n, m;
 	int **matriz;
